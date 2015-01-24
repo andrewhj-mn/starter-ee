@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>starter-ear</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>ear</packaging>
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>starter-ee</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>starter-shared</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>starter-rest</artifactId>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>starter</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <!-- Tell Maven we are using Java EE 7 -->
+                    <!--<version>6</version>-->
+                    <finalName>${project.build.finalName}</finalName>
+                    <defaultJavaBundleDir>lib/</defaultJavaBundleDir>
+                    <skinnyWars>true</skinnyWars>
+                    <modules>
+                        <webModule>
+                            <groupId>com.example</groupId>
+                            <artifactId>starter-rest</artifactId>
+                            <contextRoot>/starter-rest</contextRoot>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>com.example</groupId>
+                            <artifactId>starter-shared</artifactId>
+                        </ejbModule>
+                        <!--<fileNameMapping>no-version</fileNameMapping>-->
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
